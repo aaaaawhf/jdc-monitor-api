@@ -7,10 +7,10 @@ spring:
   datasource:
     druid:
       db-type: mysql
-      url: mpw:3wkF8hJyPEkr1JbTgI2WomeKq9QErCizRLUXhM/0VbXXyupK5RrkqyGxtwax1gpDt7LOSIJVCod9xohRKgMC75ZUUuMtpKDkBBDXJjvqVDLX9Tmqo7HUU59mUR9uoQVDdfZdmXeUFT/4kSr0SypZUQXH/dvXFRiZSi3BieeQLpObDoBR6dFxThTHIvCza8FT4lG1BsS9yRZhdGQKz4KhTBWnIO1Q/Mwqe6lpy8bwV/c=
+      url: mpw:EkV3wQGnV8NBFoTIwSav487TWOWOXqgJ0iX+p0Fp/N696XK1CpMZgRaSV4b6RobdPi6XMftqAz13wDjjMAeADwkdZTDpheTeLqrWXJaSTAuQGSQ3iV+sq0SoI5pfrX3emhsbXfgbra713iG7poWNclgYbVj5pS7Twp00Ki98lS4fX9dyf9ww9BeHFoubJqNf9qNifVaMOiHf1HN5n5MGOUtV4jZO6lwFJ1fYiMgp70oLaft7U96Y3btyDWaECurn
       username: mpw:pjzShyAw3qdFipAPVMn62Q==
       password: mpw:gLs2voN9xlVgrVBp6a/n6g==
-      driver-class-name: com.mysql.cj.jdbc.Driver
+      driver-class-name: com.p6spy.engine.spy.P6SpyDriver
       # 配置初始化大小、最小、最大
       initial-size: 50
       min-idle: 50

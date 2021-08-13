@@ -12,9 +12,9 @@ public class MybatisAes {
     public static void main(String[] args) {
         // 生成 16 位随机 AES 密钥
         String randomKey = AES.generateRandomKey();
-        String url = "jdbc:mysql://www.jsj1304.com:3399/jdc_monitor?useUnicode=true&autoReconnect=true&failOverReadOnly=false&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2b8&useSSL=false";
+        String url = "jdbc:p6spy:mysql:/localhost:3399/jdc_monitor?useUnicode=true&autoReconnect=true&failOverReadOnly=false&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2b8&useSSL=false";
         String username = "root";
-        String password = "QQ251014qq";
+        String password = "123456";
 
         // 随机密钥加密
         String urlAes = AES.encrypt(url, randomKey);
@@ -24,7 +24,6 @@ public class MybatisAes {
         System.out.println(urlAes);
         System.out.println(usernameAes);
         System.out.println(passwordAes);
-
 
     }
 }

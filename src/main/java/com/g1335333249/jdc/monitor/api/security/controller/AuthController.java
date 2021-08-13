@@ -48,8 +48,6 @@ public class AuthController {
     private ISystemUserService iSystemUserService;
     @Autowired
     private PasswordEncoder passwordEncoder;
-    @Value("${loginCode.expiration}")
-    private Long expiration;
     @Value("${rsa.private_key}")
     private String privateKey;
     @Value("${single.login:false}")
