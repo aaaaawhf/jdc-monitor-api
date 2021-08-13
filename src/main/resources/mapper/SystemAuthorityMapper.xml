@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.g1335333249.jdc.monitor.api.mapper.SystemAuthorityMapper">
+
+    <select id="getAllAuthorities" resultType="com.g1335333249.jdc.monitor.api.entity.SystemAuthority">
+        SELECT a.*
+        FROM system_user_authority ua
+        inner join system_authority a on ua.auth_id = a.auth_id
+        WHERE ua.user_id = #{userId} and ua.is_valid = 1 and a.is_valid = 1
+        union
+        SELECT a.*
+        FROM system_user_role ur
+        inner join system_role r on ur.role_id = r.role_id and r.is_valid = 1
+        inner join system_role_authority ra on r.role_id = ra.role_id and ra.is_valid = 1
+        inner join system_authority a on ra.auth_id = a.auth_id and a.is_valid = 1
+        WHERE ur.user_id = #{userId} and ur.is_valid = 1
+    </select>
+</mapper>

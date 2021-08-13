@@ -1,0 +1,55 @@
+server:
+  port: 3090
+spring:
+  jackson:
+    serialization:
+      write-dates-as-timestamps: true
+  datasource:
+    druid:
+      db-type: mysql
+      url: mpw:3wkF8hJyPEkr1JbTgI2WomeKq9QErCizRLUXhM/0VbXXyupK5RrkqyGxtwax1gpDt7LOSIJVCod9xohRKgMC75ZUUuMtpKDkBBDXJjvqVDLX9Tmqo7HUU59mUR9uoQVDdfZdmXeUFT/4kSr0SypZUQXH/dvXFRiZSi3BieeQLpObDoBR6dFxThTHIvCza8FT4lG1BsS9yRZhdGQKz4KhTBWnIO1Q/Mwqe6lpy8bwV/c=
+      username: mpw:pjzShyAw3qdFipAPVMn62Q==
+      password: mpw:gLs2voN9xlVgrVBp6a/n6g==
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      # 配置初始化大小、最小、最大
+      initial-size: 50
+      min-idle: 50
+      max-active: 200
+      # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+      filters: stat,slf4j
+      # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      web-stat-filter:
+        enabled: true
+      stat-view-servlet:
+        enabled: true
+        login-username: admin
+        login-password: QQ123456qq
+        url-pattern: /druid/*
+        reset-enable: false
+        allow:
+      max-wait: 60000 #配置获取连接等待超时的时间
+      time-between-eviction-runs-millis: 2000 #配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      min-evictable-idle-time-millis: 600000 #配置一个连接在池中最小生存的时间，单位是毫秒
+      max-evictable-idle-time-millis: 900000 #配置一个连接在池中最大生存的时间，单位是毫秒
+      # validation-query: select 1
+      test-while-idle: false
+      test-on-borrow: false
+      test-on-return: false
+      keep-alive: true
+      phy-max-use-count: 10000
+    type: com.alibaba.druid.pool.DruidDataSource
+jwt:
+  header: Authorization
+  # 令牌前缀
+  token-start-with: Bearer
+  # 必须使用最少88位的Base64对该令牌进行编码
+  base64-secret: ZmQ0ZGI5NjQ0MDQwY2I4MjMxY2Y3ZmI3MjdhN2ZmMjNhODViOTg1ZGE0NTBjMGM4NDA5NzYxMjdjOWMwYWRmZTBlZjlhNGY3ZTg4Y2U3YTE1ODVkZDU5Y2Y3OGYwZWE1NzUzNWQ2YjFjZDc0NGMxZWU2MmQ3MjY1NzJmNTE0MzI=
+  # 令牌过期时间 此处单位/毫秒 ，默认4小时，可在此网站生成 https://www.convertworld.com/zh-hans/time/milliseconds.html
+  token-validity-in-seconds: 14400000
+  # 在线用户key
+  online-key: online-token
+  # 验证码
+  code-key: code-key
+rsa:
+  private_key: MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBALpt9eb67w6SzBgKrrFTDOFcUXSTu9VseBEqxpCTTu8ZNLd7PMOGVSHfA8JSsoaXvGzS7uZq4BSYRrN5eLQZ1c5JUhoVEQbjxpw2qvvLHzIKWNnNZRZf1jcpb72gBAcv32mIHy/PLoiBvN7lF3eYa3dGl1l9W3K9SdwIopzXHy5bAgMBAAECgYEAswQx84mUEmdt6cwgMZBxNtniMdJGtMsChGGR6HQ7gKawk1uYXpxYlTzELE4itdFwkwL9em64G66ZfW+wMyj3vwhMhoE46NjJXfRAaZr2UZ/X+C3xx5Y76yWmcvBsvXmn3k2wtPY95KgN77P0giVwwl1yTNWNjFfIaF6XExZoosECQQDuV49+sp7wTPFL/C1Q9XsmhHKaFKs05/UzCN/7EMTOhJvWpNKxiYdKxeDQ7KmyW/24wmcBB7QgX6jeMR76TZOhAkEAyD3RX/Adlxl1Kheu0aPxD5o7PAL2dlkvqZ3sTkSEVyeraAXkRP2GEOHhfmaaSvuHzJTOho1ph82fNeJ42VFAewJAMH/w2z9NyGhf0a6HKipJ3RSmnWQHUsTAyJnNujE3Wy7w50Sy+x2ZQkXx8ZG3FmxRvP8SJsuCg/PzUQN94kFXAQJACrisnjtoCjAVwuQzuwvRG2nBpCvwcFPEJovLHEG06Em6dr5iA4OjiwHdJfxuZHdlRQHusOufa+MJlEQE/nXIQwJBAJL5IfFRPgqRuhRhRh9veHFoKpS4/LR/pilpWCwsM5K6uHdjyR/63tR2vEtQZwuhauLwdedjFoKe1xGekHXDoQE=
