@@ -19,36 +19,36 @@ public class MyBatisPlusMetaObjectHandler implements MetaObjectHandler {
     @Override
     public void insertFill(MetaObject metaObject) {
         log.info("start insert ....");
-        Object createTime = this.getFieldValByName("createTime", metaObject);
-        if (createTime == null) {
-            this.setFieldValByName("createTime", new Date(), metaObject);
-        }
-        Object createId = this.getFieldValByName("createId", metaObject);
-        if (createId == null) {
-            try {
-                SystemUser currentUser = (SystemUser) SecurityUtils.getCurrentUser();
-                this.setFieldValByName("createId", currentUser.getUserId(), metaObject);
-            } catch (Exception e) {
-                this.setFieldValByName("createId", -1L, metaObject);
-            }
-        }
+//        Object createTime = this.getFieldValByName("createTime", metaObject);
+//        if (createTime == null) {
+//            this.setFieldValByName("createTime", new Date(), metaObject);
+//        }
+//        Object createId = this.getFieldValByName("createUserId", metaObject);
+//        if (createId == null) {
+//            try {
+//                SystemUser currentUser = SecurityUtils.getCurrentUser();
+//                this.setFieldValByName("createUserId", currentUser.getUserId(), metaObject);
+//            } catch (Exception e) {
+//                this.setFieldValByName("createUserId", -1L, metaObject);
+//            }
+//        }
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
         log.info("start update ....");
-        Object createTime = this.getFieldValByName("updateTime", metaObject);
-        if (createTime == null) {
-            this.setFieldValByName("updateTime", new Date(), metaObject);
-        }
-        Object createId = this.getFieldValByName("updateId", metaObject);
-        if (createId == null) {
-            try {
-                SystemUser currentUser = (SystemUser) SecurityUtils.getCurrentUser();
-                this.setFieldValByName("updateId", currentUser.getUserId(), metaObject);
-            } catch (Exception e) {
-                this.setFieldValByName("updateId", -1L, metaObject);
-            }
-        }
+//        Object createTime = this.getFieldValByName("updateTime", metaObject);
+//        if (createTime == null) {
+//            this.setFieldValByName("updateTime", new Date(), metaObject);
+//        }
+//        Object createId = this.getFieldValByName("updateUserId", metaObject);
+//        if (createId == null) {
+//            try {
+//                SystemUser currentUser = (SystemUser) SecurityUtils.getCurrentUser();
+//                this.setFieldValByName("updateUserId", currentUser.getUserId(), metaObject);
+//            } catch (Exception e) {
+//                this.setFieldValByName("updateUserId", -1L, metaObject);
+//            }
+//        }
     }
 }

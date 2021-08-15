@@ -15,6 +15,7 @@
  */
 package com.g1335333249.jdc.monitor.api.security.util;
 
+import com.g1335333249.jdc.monitor.api.entity.SystemUser;
 import com.g1335333249.jdc.monitor.api.exception.BadRequestException;
 import com.g1335333249.jdc.monitor.api.security.config.SpringContextHolder;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +39,7 @@ public class SecurityUtils {
      *
      * @return UserDetails
      */
-    public static UserDetails getCurrentUser() {
+    public static SystemUser getCurrentUser() {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null) {
             throw new BadRequestException(HttpStatus.UNAUTHORIZED, "当前登录状态过期");
@@ -46,7 +47,7 @@ public class SecurityUtils {
         if (authentication.getPrincipal() instanceof UserDetails) {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             UserDetailsService userDetailsService = SpringContextHolder.getBean(UserDetailsService.class);
-            return userDetailsService.loadUserByUsername(userDetails.getUsername());
+            return (SystemUser) userDetailsService.loadUserByUsername(userDetails.getUsername());
         }
         throw new BadRequestException(HttpStatus.UNAUTHORIZED, "找不到当前登录的信息");
     }
