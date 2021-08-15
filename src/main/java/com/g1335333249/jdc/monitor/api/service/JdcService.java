@@ -23,10 +23,14 @@ import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author guanpeng
+ */
 @Service
 public class JdcService {
     public static final String DEVICE_KEY = "ios6.5.5iPhone11,813.7:%s";
@@ -139,8 +143,8 @@ public class JdcService {
      *
      * @return
      */
-    public AppRouterTodayPointIncome todayPointIncome(String pin) {
-        return routerAppApiGetRequest(AppUrlConstant.TODAY_POINT_INCOME, AppRouterTodayPointIncome.class, pin);
+    public AppRouterTodayPointIncome todayPointIncome(String tgt) {
+        return routerAppApiGetRequest(AppUrlConstant.TODAY_POINT_INCOME, AppRouterTodayPointIncome.class, tgt);
     }
 
     /**
@@ -148,17 +152,34 @@ public class JdcService {
      *
      * @return
      */
-    public AppRouterPinTotalAvailPoint pinTotalAvailPoint(String pin) {
-        return routerAppApiGetRequest(AppUrlConstant.PIN_TOTAL_AVAIL_POINT, AppRouterPinTotalAvailPoint.class, pin);
+    public AppRouterPinTotalAvailPoint pinTotalAvailPoint(String tgt) {
+        return routerAppApiGetRequest(AppUrlConstant.PIN_TOTAL_AVAIL_POINT, AppRouterPinTotalAvailPoint.class, tgt);
     }
+
 
     /**
      * 获取今日积分详情
      *
      * @return
      */
-    public AppRouterTodayPointDetail todayPointDetail(String pin) {
-        return routerAppApiGetRequest(AppUrlConstant.TODAY_POINT_DETAIL, AppRouterTodayPointDetail.class, pin);
+    public AppRouterTodayPointDetail todayPointDetail(String tgt) {
+        AppRouterTodayPointDetail appRouterTodayPointDetail = routerAppApiGetRequest(String.format(AppUrlConstant.TODAY_POINT_DETAIL, 1, 15), AppRouterTodayPointDetail.class, tgt);
+        appRouterTodayPointDetail.setPointInfos(allTodayPointDetail(1, 15, null, tgt));
+        return appRouterTodayPointDetail;
+    }
+
+    public List<AppRouterTodayPointInfo> allTodayPointDetail(Integer page, Integer pageSize, List<AppRouterTodayPointInfo> result, String tgt) {
+        if (result == null) {
+            result = new ArrayList<>();
+        }
+        AppRouterTodayPointDetail appRouterTodayPointDetail = routerAppApiGetRequest(String.format(AppUrlConstant.TODAY_POINT_DETAIL, page, pageSize), AppRouterTodayPointDetail.class, tgt);
+        AppRouterPageInfo pageInfo = appRouterTodayPointDetail.getPageInfo();
+        result.addAll(appRouterTodayPointDetail.getPointInfos());
+        if (pageInfo.getTotalPage() == page) {
+            return result;
+        } else {
+            return allTodayPointDetail(page + 1, pageSize, result, tgt);
+        }
     }
 
     /**
@@ -166,11 +187,11 @@ public class JdcService {
      *
      * @return
      */
-    public AppRouterPointOperateRecords pointOperateRecords(String mac, String pin) {
+    public AppRouterPointOperateRecords pointOperateRecords(String mac, String tgt) {
         if (StringUtils.isBlank(mac)) {
             throw new IllegalArgumentException("Mac不能为空");
         }
-        return routerAppApiGetRequest(String.format(AppUrlConstant.POINT_OPERATE_RECORDS, mac), AppRouterPointOperateRecords.class, pin);
+        return routerAppApiGetRequest(String.format(AppUrlConstant.POINT_OPERATE_RECORDS, mac), AppRouterPointOperateRecords.class, tgt);
     }
 
     /**
@@ -178,11 +199,11 @@ public class JdcService {
      *
      * @return
      */
-    public AppRouterRouterAccountInfo routerAccountInfo(String mac, String pin) {
+    public AppRouterRouterAccountInfo routerAccountInfo(String mac, String tgt) {
         if (StringUtils.isBlank(mac)) {
             throw new IllegalArgumentException("Mac不能为空");
         }
-        return routerAppApiGetRequest(String.format(AppUrlConstant.ROUTER_ACCOUNT_INFO, mac), AppRouterRouterAccountInfo.class, pin);
+        return routerAppApiGetRequest(String.format(AppUrlConstant.ROUTER_ACCOUNT_INFO, mac), AppRouterRouterAccountInfo.class, tgt);
     }
 
 

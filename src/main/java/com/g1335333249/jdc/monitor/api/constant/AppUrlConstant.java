@@ -6,7 +6,7 @@ public class AppUrlConstant {
 
     public static final String TODAY_POINT_INCOME = "https://router-app-api.jdcloud.com/v1/regions/cn-north-1/todayPointIncome";
     public static final String PIN_TOTAL_AVAIL_POINT = "https://router-app-api.jdcloud.com/v1/regions/cn-north-1/pinTotalAvailPoint";
-    public static final String TODAY_POINT_DETAIL = "https://router-app-api.jdcloud.com/v1/regions/cn-north-1/todayPointDetail?sortField=today_point&sortDirection=DESC&currentPage=1&pageSize=15";
+    public static final String TODAY_POINT_DETAIL = "https://router-app-api.jdcloud.com/v1/regions/cn-north-1/todayPointDetail?sortField=today_point&sortDirection=DESC&currentPage=%s&pageSize=%s";
     public static final String POINT_OPERATE_RECORDS = "https://router-app-api.jdcloud.com/v1/regions/cn-north-1/pointOperateRecords:show?currentPage=1&exchangeType=1&mac=%s&pageSize=15&source=1";
     public static final String ROUTER_ACCOUNT_INFO = "https://router-app-api.jdcloud.com/v1/regions/cn-north-1/routerAccountInfo?mac=%s";
 }
