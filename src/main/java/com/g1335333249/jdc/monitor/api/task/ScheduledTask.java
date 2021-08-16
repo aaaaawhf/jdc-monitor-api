@@ -62,15 +62,19 @@ public class ScheduledTask {
     public void updateMonitor() {
         List<AccountDeviceList> list = iAccountDeviceListService.list(Wrappers.<AccountDeviceList>lambdaQuery().eq(AccountDeviceList::getIsValid, true));
         list.parallelStream().forEach(s -> {
-            UserAccount userAccount = USER_ACCOUNT_MAP.get(s.getUserAccountId());
-            if (userAccount == null) {
-                userAccount = iUserAccountService.getById(s.getUserAccountId());
+            try {
+                UserAccount userAccount = USER_ACCOUNT_MAP.get(s.getUserAccountId());
                 if (userAccount == null) {
-                    return;
+                    userAccount = iUserAccountService.getById(s.getUserAccountId());
+                    if (userAccount == null) {
+                        return;
+                    }
+                    USER_ACCOUNT_MAP.put(s.getUserAccountId(), userAccount);
                 }
-                USER_ACCOUNT_MAP.put(s.getUserAccountId(), userAccount);
+                iAccountDeviceListService.monitor(s, userAccount.getPin(), userAccount.getTgt(), -1L);
+            } catch (Exception e) {
+                log.error("获取速度错误{}", s.getId(), e);
             }
-            iAccountDeviceListService.monitor(s, userAccount.getPin(), userAccount.getTgt(), -1L);
         });
 
 
