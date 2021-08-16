@@ -8,6 +8,7 @@ import com.g1335333249.jdc.monitor.api.utils.JsonUtil;
 import com.g1335333249.jdc.monitor.api.utils.MD5Util;
 import com.g1335333249.jdc.monitor.api.utils.OkHttpUtil;
 import com.google.gson.reflect.TypeToken;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
@@ -32,6 +33,7 @@ import java.util.Map;
  * @author guanpeng
  */
 @Service
+@Slf4j
 public class JdcService {
     public static final String DEVICE_KEY = "ios6.5.5iPhone11,813.7:%s";
     public static final String AUTHORIZATION_TEMPLATE = "smart %s:::%s:::%s";
@@ -109,7 +111,12 @@ public class JdcService {
         headers.put("pin", pin);
         String s = OkHttpUtil.postJsonParams(AppUrlConstant.CONTROL_DEVICE, body, headers);
         AppResult appResult = JsonUtil.GSON.fromJson(s, AppResult.class);
-        AppRouterStatusDetail appRouterStatusDetail = JsonUtil.GSON.fromJson(appResult.getResult().toString(), AppRouterStatusDetail.class);
+        AppRouterStatusDetail appRouterStatusDetail = null;
+        try {
+            appRouterStatusDetail = JsonUtil.GSON.fromJson(appResult.getResult().toString(), AppRouterStatusDetail.class);
+        } catch (Exception e) {
+            log.error("获取路由状态报错{}", s);
+        }
         return JsonUtil.GSON.fromJson(appRouterStatusDetail.getStreams().get(0).getCurrentValue(), AppRouterStatusDetailInfo.class);
     }
 
