@@ -79,7 +79,6 @@ public class UserAccountController {
     private void updateAccountDeviceList(List<AppDeviceResult> appDeviceResults, SystemUser currentUser, UserAccount userAccount) {
         CompletableFuture.runAsync(() -> {
             List<AppDeviceInfo> appDeviceInfos = appDeviceResults.get(0).getList().stream().filter(s -> "213400001".equals(s.getProductId()) || "169500020".equals(s.getProductId())).collect(Collectors.toList());
-
             for (AppDeviceInfo appDeviceInfo : appDeviceInfos) {
                 AccountDeviceList accountDeviceList;
                 List<AccountDeviceList> accountDeviceLists = iAccountDeviceListService.list(Wrappers.<AccountDeviceList>lambdaQuery().eq(AccountDeviceList::getFeedId, appDeviceInfo.getFeedId()).eq(AccountDeviceList::getUserId, currentUser.getUserId()).eq(AccountDeviceList::getUserAccountId, userAccount.getId()));
@@ -127,6 +126,7 @@ public class UserAccountController {
                 }
                 iAccountDeviceListService.saveOrUpdate(accountDeviceList);
             }
+            iAccountDeviceListService.updatePoint(userAccount.getId(), userAccount.getTgt(), currentUser.getUserId());
         });
     }
 

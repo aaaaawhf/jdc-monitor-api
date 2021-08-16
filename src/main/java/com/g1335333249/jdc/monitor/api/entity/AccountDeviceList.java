@@ -53,6 +53,18 @@ public class AccountDeviceList implements Serializable {
     @TableField("device_id")
     private String deviceId;
 
+    /**
+     * 今日积分收入
+     */
+    @TableField("today_point_income")
+    private Integer todayPointIncome;
+
+    /**
+     * 总积分收入
+     */
+    @TableField("all_point_income")
+    private Integer allPointIncome;
+
     @TableField("status")
     private String status;
 
@@ -117,6 +129,10 @@ public class AccountDeviceList implements Serializable {
     public static final String PRODUCT_ID = "product_id";
 
     public static final String DEVICE_ID = "device_id";
+
+    public static final String TODAY_POINT_INCOME = "today_point_income";
+
+    public static final String ALL_POINT_INCOME = "all_point_income";
 
     public static final String STATUS = "status";
 
