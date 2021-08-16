@@ -71,6 +71,12 @@ public class AuthController {
         return iSystemUserService.save(user) ? Result.success("注册成功") : Result.fail("注册失败");
     }
 
+    @PostMapping("getPassword")
+    @AnonymousAccess
+    public Result<String> getPassword(@RequestBody @NotNull @Valid SystemUser user) {
+        return Result.success(passwordEncoder.encode(user.getPassword()));
+    }
+
     @ApiOperation("登录授权")
     @AnonymousAccess
     @PostMapping(value = "/login")
