@@ -104,6 +104,24 @@ public class AccountDeviceList implements Serializable {
     @TableField("cname")
     private String cname;
 
+    @TableField("rom")
+    private String rom;
+
+    @TableField("sn")
+    private String sn;
+
+    @TableField("model")
+    private String model;
+
+    @TableField("model_name")
+    private String modelName;
+
+    @TableField("ap_mode")
+    private String apMode;
+
+    @TableField("online_time")
+    private Long onlineTime;
+
     @TableField("is_valid")
     private Boolean isValid;
 
@@ -159,6 +177,18 @@ public class AccountDeviceList implements Serializable {
     public static final String DEVICE_PAGE_TYPE = "device_page_type";
 
     public static final String CNAME = "cname";
+
+    public static final String ROM = "rom";
+
+    public static final String SN = "sn";
+
+    public static final String MODEL = "model";
+
+    public static final String MODEL_NAME = "model_name";
+
+    public static final String AP_MODE = "ap_mode";
+
+    public static final String ONLINE_TIME = "online_time";
 
     public static final String IS_VALID = "is_valid";
 

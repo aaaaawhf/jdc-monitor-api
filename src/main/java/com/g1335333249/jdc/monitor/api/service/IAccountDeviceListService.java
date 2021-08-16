@@ -13,7 +13,7 @@ import com.g1335333249.jdc.monitor.api.entity.AccountDeviceList;
  */
 public interface IAccountDeviceListService extends IService<AccountDeviceList> {
 
-    void monitor(Long feedId, String pin, String tgt, Long updateUserId);
+    void monitor(AccountDeviceList accountDeviceList, String pin, String tgt, Long updateUserId);
 
     void updatePoint(Long userAccountId, String tgt, Long updateUserId);
 }
