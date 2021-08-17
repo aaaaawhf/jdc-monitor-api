@@ -2,4 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.g1335333249.jdc.monitor.api.mapper.AccountDeviceListMapper">
 
+    <select id="pageWithSpeed" resultType="com.g1335333249.jdc.monitor.api.entity.AccountDeviceList">
+        SELECT t1.*,
+               (SELECT upload FROM account_device_list_speed_monitor WHERE account_device_list_id = t1.id AND create_time = MAX(t2.create_time) LIMIT 1) now_upload,
+               (SELECT download FROM account_device_list_speed_monitor WHERE account_device_list_id = t1.id AND create_time = MAX(t2.create_time) LIMIT 1) now_download,
+               sum(t2.upload * 60 * 5) total_upload,sum(t2.download * 60 * 5) total_download
+        FROM account_device_list t1 LEFT JOIN account_device_list_speed_monitor t2
+                ON t1.id = t2.account_device_list_id AND to_days(t2.create_time) = to_days(now())
+        ${ew.customSqlSegment}
+        GROUP BY t1.id
+    </select>
 </mapper>

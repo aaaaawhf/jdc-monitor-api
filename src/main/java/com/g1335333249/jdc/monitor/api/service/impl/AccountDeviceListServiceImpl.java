@@ -1,6 +1,8 @@
 package com.g1335333249.jdc.monitor.api.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.g1335333249.jdc.monitor.api.entity.AccountDeviceList;
 import com.g1335333249.jdc.monitor.api.entity.AccountDeviceListSpeedMonitor;
@@ -93,5 +95,10 @@ public class AccountDeviceListServiceImpl extends ServiceImpl<AccountDeviceListM
             saveOrUpdateBatch(accountDeviceLists);
         }
 
+    }
+
+    @Override
+    public Page<AccountDeviceList> pageWithSpeed(Page<AccountDeviceList> page, Wrapper<AccountDeviceList> wrapper) {
+        return getBaseMapper().pageWithSpeed(page, wrapper);
     }
 }

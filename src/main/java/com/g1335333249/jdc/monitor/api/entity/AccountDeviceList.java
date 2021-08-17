@@ -1,18 +1,19 @@
 package com.g1335333249.jdc.monitor.api.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
-import java.util.Date;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+import java.util.Date;
+
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author guanpeng
@@ -143,6 +144,17 @@ public class AccountDeviceList implements Serializable {
     @TableField("update_user_id")
     private Long updateUserId;
 
+    @TableField(value = "now_upload", exist = false)
+    private Long nowUpload;
+
+    @TableField(value = "now_download", exist = false)
+    private Long nowDownload;
+
+    @TableField(value = "total_upload", exist = false)
+    private Long totalUpload;
+
+    @TableField(value = "total_download", exist = false)
+    private Long totalDownload;
 
     public static final String ID = "id";
 

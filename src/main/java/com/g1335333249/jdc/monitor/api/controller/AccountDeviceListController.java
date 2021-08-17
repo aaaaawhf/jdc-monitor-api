@@ -1,7 +1,7 @@
 package com.g1335333249.jdc.monitor.api.controller;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.g1335333249.jdc.monitor.api.entity.AccountDeviceList;
@@ -36,9 +36,9 @@ public class AccountDeviceListController {
     @PostMapping("search")
     public Result<Page<AccountDeviceList>> search(@RequestBody AccountDeviceListRequestParam request) {
         SystemUser currentUser = SecurityUtils.getCurrentUser();
-        LambdaQueryWrapper<AccountDeviceList> queryWrapper = Wrappers.lambdaQuery();
-        queryWrapper.eq(AccountDeviceList::getUserId, currentUser.getUserId()).eq(AccountDeviceList::getIsValid, true);
-        return Result.success(iAccountDeviceListService.page(new Page<>(request.getPage(), request.getSize()), queryWrapper));
+        QueryWrapper<AccountDeviceList> queryWrapper = Wrappers.query();
+        queryWrapper.eq("t1." + AccountDeviceList.USER_ID, currentUser.getUserId()).eq("t1." + AccountDeviceList.IS_VALID, true);
+        return Result.success(iAccountDeviceListService.pageWithSpeed(new Page<>(request.getPage(), request.getSize()), queryWrapper));
     }
 
     @PostMapping("updateCost")
