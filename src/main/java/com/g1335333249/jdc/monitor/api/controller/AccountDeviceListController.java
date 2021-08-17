@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
+
 /**
  * <p>
  * 前端控制器
@@ -37,5 +39,22 @@ public class AccountDeviceListController {
         LambdaQueryWrapper<AccountDeviceList> queryWrapper = Wrappers.lambdaQuery();
         queryWrapper.eq(AccountDeviceList::getUserId, currentUser.getUserId()).eq(AccountDeviceList::getIsValid, true);
         return Result.success(iAccountDeviceListService.page(new Page<>(request.getPage(), request.getSize()), queryWrapper));
+    }
+
+    @PostMapping("updateCost")
+    public Result<String> updateCost(@RequestBody AccountDeviceListRequestParam request) {
+        SystemUser currentUser = SecurityUtils.getCurrentUser();
+        AccountDeviceList accountDeviceList = iAccountDeviceListService.getById(request.getId());
+        if (accountDeviceList == null) {
+            return Result.fail("设备不存在，请刷新重试！");
+        }
+        if (!accountDeviceList.getUserId().equals(currentUser.getUserId())) {
+            return Result.fail("非法操作！");
+        }
+        accountDeviceList.setCost(request.getCost());
+        accountDeviceList.setUpdateTime(new Date());
+        accountDeviceList.setUpdateUserId(currentUser.getUserId());
+        iAccountDeviceListService.saveOrUpdate(accountDeviceList);
+        return Result.success();
     }
 }

@@ -7,7 +7,8 @@ import lombok.Data;
  */
 @Data
 public class AccountDeviceListRequestParam {
-
+    private Long id;
+    private Double cost;
     private int page;
     private int size;
 }
