@@ -121,6 +121,38 @@ public class JdcService {
     }
 
     /**
+     * 重启
+     *
+     * @param feedId
+     * @return
+     */
+    public boolean rebootSystem(String feedId, String pin, String tgt) {
+        String body = "{\"feed_id\":\"" + feedId + "\",\"command\":[{\"stream_id\":\"SetParams\",\"current_value\":\"{\\n  \\\"cmd\\\" : \\\"reboot_system\\\"\\n}\"}]}";
+        LocalDateTime now = LocalDateTime.now();
+        Map<String, String> headers = new HashMap<>();
+        String nowStr = now + "Z";
+        String authorization = encodeAuthorization(body, ACCESS_KEY, nowStr);
+        headers.put("Authorization", authorization);
+        headers.put("timestamp", now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        headers.put("accesskey", ACCESS_KEY);
+        headers.put("tgt", tgt);
+        headers.put("User-Agent", "ios");
+        headers.put("appkey", "996");
+        headers.put("pin", pin);
+        String s = OkHttpUtil.postJsonParams(AppUrlConstant.CONTROL_DEVICE, body, headers);
+        log.info("重启设备返回数据{}", s);
+        AppResult appResult = JsonUtil.GSON.fromJson(s, AppResult.class);
+        AppRouterStatusDetail appRouterStatusDetail = null;
+        try {
+            appRouterStatusDetail = JsonUtil.GSON.fromJson(appResult.getResult().toString(), AppRouterStatusDetail.class);
+        } catch (Exception e) {
+            log.error("获取路由状态报错{}", s);
+        }
+        long success = appRouterStatusDetail.getStreams().stream().filter(s1 -> StringUtils.containsIgnoreCase(s1.getCurrentValue(), "success")).count();
+        return success > 0;
+    }
+
+    /**
      * 获取路由状态详情
      *
      * @param feedId
