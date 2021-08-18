@@ -68,8 +68,6 @@ public class AccountDeviceListServiceImpl extends ServiceImpl<AccountDeviceListM
                 e.printStackTrace();
             }
         }
-
-
     }
 
     @Override

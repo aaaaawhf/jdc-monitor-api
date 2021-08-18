@@ -1,5 +1,6 @@
 package com.g1335333249.jdc.monitor.api.entity;
 
+import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -155,6 +156,13 @@ public class AccountDeviceList implements Serializable {
 
     @TableField(value = "total_download", exist = false)
     private Long totalDownload;
+
+    @TableField(exist = false)
+    private String onlineTimeStr;
+
+    public String getOnlineTimeStr() {
+        return DateUtil.formatBetween(onlineTime * 1000);
+    }
 
     public static final String ID = "id";
 
