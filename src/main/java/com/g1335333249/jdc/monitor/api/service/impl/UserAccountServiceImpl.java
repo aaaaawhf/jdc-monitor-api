@@ -40,7 +40,7 @@ public class UserAccountServiceImpl extends ServiceImpl<UserAccountMapper, UserA
                 List<AccountDeviceList> accountDeviceLists = iAccountDeviceListService.list(Wrappers.<AccountDeviceList>lambdaQuery().eq(AccountDeviceList::getFeedId, appDeviceInfo.getFeedId()).eq(AccountDeviceList::getUserAccountId, userAccount.getId()));
                 if (CollectionUtils.isEmpty(accountDeviceLists)) {
                     accountDeviceList = new AccountDeviceList();
-                    accountDeviceList.setUserId(updateUserId);
+                    accountDeviceList.setUserId(userAccount.getUserId());
                     accountDeviceList.setUserAccountId(userAccount.getId());
                     accountDeviceList.setProductId(appDeviceInfo.getProductId());
                     accountDeviceList.setDeviceId(appDeviceInfo.getDeviceId());
