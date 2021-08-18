@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,13 +32,14 @@ public class AccountDeviceListSpeedMonitorController {
 
     @PostMapping("search")
     public Result<List<AccountDeviceListSpeedMonitor>> search(@RequestBody AccountDeviceListSpeedMonitorRequestParam request) {
-        Calendar instance = Calendar.getInstance();
-        instance.set(Calendar.HOUR, 0);
-        instance.set(Calendar.MINUTE, 0);
-        instance.set(Calendar.SECOND, 0);
+//        Calendar instance = Calendar.getInstance();
+//        instance.set(Calendar.HOUR, 0);
+//        instance.set(Calendar.MINUTE, 0);
+//        instance.set(Calendar.SECOND, 0);
         LambdaQueryWrapper<AccountDeviceListSpeedMonitor> query = Wrappers.lambdaQuery();
         query.eq(AccountDeviceListSpeedMonitor::getAccountDeviceListId, request.getAccountDeviceListId());
-        query.between(AccountDeviceListSpeedMonitor::getCreateTime, instance.getTime(), new Date());
+        query.apply("to_days(" + AccountDeviceListSpeedMonitor.CREATE_TIME + ") = to_days(now())");
+//        query.between(AccountDeviceListSpeedMonitor::getCreateTime, instance.getTime(), new Date());
         query.orderByAsc(AccountDeviceListSpeedMonitor::getCreateTime);
         return Result.success(iAccountDeviceListSpeedMonitorService.list(query));
     }
