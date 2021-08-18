@@ -40,7 +40,7 @@ public class AccountDeviceListSpeedMonitorController {
         instance.set(Calendar.SECOND, 0);
         LambdaQueryWrapper<AccountDeviceListSpeedMonitor> query = Wrappers.lambdaQuery();
         query.eq(AccountDeviceListSpeedMonitor::getAccountDeviceListId, request.getAccountDeviceListId());
-        query.between(AccountDeviceListSpeedMonitor::getCreateTime, instance, new Date());
+        query.between(AccountDeviceListSpeedMonitor::getCreateTime, instance.getTime(), new Date());
         query.orderByAsc(AccountDeviceListSpeedMonitor::getCreateTime);
         return Result.success(iAccountDeviceListSpeedMonitorService.list(query));
     }
