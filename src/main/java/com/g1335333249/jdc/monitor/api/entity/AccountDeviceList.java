@@ -161,7 +161,7 @@ public class AccountDeviceList implements Serializable {
     private String onlineTimeStr;
 
     public String getOnlineTimeStr() {
-        return DateUtil.formatBetween(onlineTime * 1000);
+        return onlineTime == null ? "设备不在线" : DateUtil.formatBetween(onlineTime * 1000);
     }
 
     public static final String ID = "id";
