@@ -16,4 +16,6 @@ public class Dashboard {
     private Long totalDownload;
     private Long totalLastUpload;
     private Long totalLastDownload;
+    private Long todayPointIncome;
+    private Long allPointIncome;
 }

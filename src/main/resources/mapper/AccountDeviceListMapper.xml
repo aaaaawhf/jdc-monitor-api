@@ -21,7 +21,9 @@
                 sum(t.totalUpload) totalUpload ,
                 sum(t.totalDownload) totalDownload,
                 sum(t.lastUpload) totalLastUpload,
-                sum(t.lastDownload) totalLastDownload
+                sum(t.lastDownload) totalLastDownload,
+                sum(t.today_point_income) todayPointIncome,
+                sum(t.all_point_income) allPointIncome
         FROM (
                      SELECT
                              t1.id,t1.`status`,sum(t2.upload * 5 * 60) totalUpload,sum(t2.download * 5 * 60) totalDownload,
@@ -30,7 +32,9 @@
                                      ) lastUpload,
                              (SELECT download FROM account_device_list_speed_monitor WHERE account_device_list_id = t1.id AND
                                      event_time = CONCAT(DATE_FORMAT(NOW(),'%Y-%m-%d %H:'),FLOOR(DATE_FORMAT(NOW(),'%i')/10),IF(FLOOR(DATE_FORMAT(NOW(),'%i')/5)%2=1,5,0),':00')
-                                     ) lastDownload
+                                     ) lastDownload,
+                            t1.today_point_income,
+                            t1.all_point_income
                      FROM
                              account_device_list t1
                                      INNER JOIN account_device_list_speed_monitor t2 ON t1.id = t2.account_device_list_id
