@@ -13,6 +13,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -60,6 +61,9 @@ public class ScheduledTask {
 
     @Scheduled(cron = "0 0/5 * * * *")
     public void updateMonitor() {
+        Calendar now = Calendar.getInstance();
+        now.set(Calendar.SECOND, 0);
+        now.set(Calendar.MILLISECOND, 0);
         List<AccountDeviceList> list = iAccountDeviceListService.list(Wrappers.<AccountDeviceList>lambdaQuery().eq(AccountDeviceList::getIsValid, true));
         list.parallelStream().forEach(s -> {
             try {
@@ -71,7 +75,7 @@ public class ScheduledTask {
                     }
                     USER_ACCOUNT_MAP.put(s.getUserAccountId(), userAccount);
                 }
-                iAccountDeviceListService.monitor(s, userAccount.getPin(), userAccount.getTgt(), -1L);
+                iAccountDeviceListService.monitor(s, userAccount.getPin(), userAccount.getTgt(), -1L, now);
             } catch (Exception e) {
                 log.error("获取速度错误{}", s.getId(), e);
             }

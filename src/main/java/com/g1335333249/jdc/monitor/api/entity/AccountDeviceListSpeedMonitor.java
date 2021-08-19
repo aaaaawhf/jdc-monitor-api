@@ -60,6 +60,12 @@ public class AccountDeviceListSpeedMonitor implements Serializable {
     private Integer mem;
 
     /**
+     * 发生时间
+     */
+    @TableField("event_time")
+    private Date eventTime;
+
+    /**
      * 添加时间
      */
     @TableField("create_time")
@@ -83,6 +89,8 @@ public class AccountDeviceListSpeedMonitor implements Serializable {
     public static final String CPU = "cpu";
 
     public static final String MEM = "mem";
+
+    public static final String EVENT_TIME = "event_time";
 
     public static final String CREATE_TIME = "create_time";
 

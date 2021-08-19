@@ -12,4 +12,32 @@
         ${ew.customSqlSegment}
         GROUP BY t1.id
     </select>
+
+    <select id="dashboard" resultType="com.g1335333249.jdc.monitor.api.model.Dashboard">
+        SELECT
+                count(DISTINCT t.id ) totalDevices,
+                sum(IF
+                        ( t.`status` = 1, 1, 0 )) onlineDevices,
+                sum(t.totalUpload) totalUpload ,
+                sum(t.totalDownload) totalDownload,
+                sum(t.lastUpload) totalLastUpload,
+                sum(t.lastDownload) totalLastDownload
+        FROM (
+                     SELECT
+                             t1.id,t1.`status`,sum(t2.upload * 5 * 60) totalUpload,sum(t2.download * 5 * 60) totalDownload,
+                             (SELECT upload FROM account_device_list_speed_monitor WHERE account_device_list_id = t1.id AND
+                                     event_time = CONCAT(DATE_FORMAT(NOW(),'%Y-%m-%d %H:'),FLOOR(DATE_FORMAT(NOW(),'%i')/10),IF(FLOOR(DATE_FORMAT(NOW(),'%i')/5)%2=1,5,0),':00')
+                                     ) lastUpload,
+                             (SELECT download FROM account_device_list_speed_monitor WHERE account_device_list_id = t1.id AND
+                                     event_time = CONCAT(DATE_FORMAT(NOW(),'%Y-%m-%d %H:'),FLOOR(DATE_FORMAT(NOW(),'%i')/10),IF(FLOOR(DATE_FORMAT(NOW(),'%i')/5)%2=1,5,0),':00')
+                                     ) lastDownload
+                     FROM
+                             account_device_list t1
+                                     INNER JOIN account_device_list_speed_monitor t2 ON t1.id = t2.account_device_list_id
+                     WHERE
+                             t1.user_id = #{userId,jdbcType=BIGINT}
+                       AND TO_DAYS(t2.create_time) = TO_DAYS(NOW())
+                     GROUP BY t1.id
+                     ) t
+    </select>
 </mapper>

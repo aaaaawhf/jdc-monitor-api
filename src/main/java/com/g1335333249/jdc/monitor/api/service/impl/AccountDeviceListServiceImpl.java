@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.g1335333249.jdc.monitor.api.entity.AccountDeviceList;
 import com.g1335333249.jdc.monitor.api.entity.AccountDeviceListSpeedMonitor;
 import com.g1335333249.jdc.monitor.api.mapper.AccountDeviceListMapper;
+import com.g1335333249.jdc.monitor.api.model.Dashboard;
 import com.g1335333249.jdc.monitor.api.model.jdc.AppRouterStatusDetailInfo;
 import com.g1335333249.jdc.monitor.api.model.jdc.router.AppRouterTodayPointDetail;
 import com.g1335333249.jdc.monitor.api.model.jdc.router.AppRouterTodayPointInfo;
@@ -18,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -37,7 +39,7 @@ public class AccountDeviceListServiceImpl extends ServiceImpl<AccountDeviceListM
     private IAccountDeviceListSpeedMonitorService iAccountDeviceListSpeedMonitorService;
 
     @Override
-    public void monitor(AccountDeviceList accountDeviceList, String pin, String tgt, Long updateUserId) {
+    public void monitor(AccountDeviceList accountDeviceList, String pin, String tgt, Long updateUserId, Calendar now) {
 //        AppRouterPcdnStatus pcdnStatus = jdcService.getPcdnStatus(feedId + "", pin, tgt);
         //
         AppRouterStatusDetailInfo routerStatusDetail = jdcService.getRouterStatusDetail(accountDeviceList.getFeedId() + "", pin, tgt);
@@ -50,6 +52,7 @@ public class AccountDeviceListServiceImpl extends ServiceImpl<AccountDeviceListM
                 accountDeviceListSpeedMonitor.setDownload(Long.parseLong(dataBean.getDownload()));
                 accountDeviceListSpeedMonitor.setCpu(Double.parseDouble(dataBean.getCpu()));
                 accountDeviceListSpeedMonitor.setMem(Integer.parseInt(dataBean.getMem()));
+                accountDeviceListSpeedMonitor.setEventTime(now.getTime());
                 accountDeviceListSpeedMonitor.setCreateTime(new Date());
                 accountDeviceListSpeedMonitor.setWanip(dataBean.getWanip());
                 iAccountDeviceListSpeedMonitorService.save(accountDeviceListSpeedMonitor);
@@ -98,5 +101,10 @@ public class AccountDeviceListServiceImpl extends ServiceImpl<AccountDeviceListM
     @Override
     public Page<AccountDeviceList> pageWithSpeed(Page<AccountDeviceList> page, Wrapper<AccountDeviceList> wrapper) {
         return getBaseMapper().pageWithSpeed(page, wrapper);
+    }
+
+    @Override
+    public Dashboard dashboard(Long userId) {
+        return getBaseMapper().dashboard(userId);
     }
 }
