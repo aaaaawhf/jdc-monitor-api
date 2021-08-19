@@ -65,6 +65,7 @@ public class AccountDeviceListServiceImpl extends ServiceImpl<AccountDeviceListM
                     deviceList.setModelName(dataBean.getModelName());
                     deviceList.setApMode(dataBean.getApMode());
                     deviceList.setOnlineTime(Long.parseLong(dataBean.getOnlineTime()));
+                    deviceList.setInternetIp(dataBean.getWanip());
                     saveOrUpdate(deviceList);
                 }
             } catch (Exception e) {

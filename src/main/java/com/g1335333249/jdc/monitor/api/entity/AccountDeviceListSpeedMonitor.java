@@ -77,6 +77,12 @@ public class AccountDeviceListSpeedMonitor implements Serializable {
     @TableField("wanip")
     private String wanip;
 
+    /**
+     * 公网IP
+     */
+    @TableField("internet_ip")
+    private String internetIp;
+
 
     public static final String ID = "id";
 
@@ -95,5 +101,7 @@ public class AccountDeviceListSpeedMonitor implements Serializable {
     public static final String CREATE_TIME = "create_time";
 
     public static final String WANIP = "wanip";
+
+    public static final String INTERNET_IP = "internet_ip";
 
 }

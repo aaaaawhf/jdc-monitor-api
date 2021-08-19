@@ -130,6 +130,12 @@ public class AccountDeviceList implements Serializable {
     @TableField("online_time")
     private Long onlineTime;
 
+    /**
+     * 公网IP
+     */
+    @TableField("internet_ip")
+    private String internetIp;
+
     @TableField("is_valid")
     private Boolean isValid;
 
@@ -217,6 +223,8 @@ public class AccountDeviceList implements Serializable {
     public static final String AP_MODE = "ap_mode";
 
     public static final String ONLINE_TIME = "online_time";
+
+    public static final String INTERNET_IP = "internet_ip";
 
     public static final String IS_VALID = "is_valid";
 
