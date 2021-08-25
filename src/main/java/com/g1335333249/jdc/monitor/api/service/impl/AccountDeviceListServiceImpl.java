@@ -46,6 +46,29 @@ public class AccountDeviceListServiceImpl extends ServiceImpl<AccountDeviceListM
             if ("213400001".equals(accountDeviceList.getProductId())) {
                 AccountDeviceList deviceList = getById(accountDeviceList.getId());
                 AppRouterPcdnStatus pcdnStatus = jdcService.getPcdnStatus(accountDeviceList.getFeedId() + "", pin, tgt);
+                List<AppRouterPcdnStatus.DataBean.PcdnListBean> pcdnList = pcdnStatus.getData().getPcdnList();
+                for (int i = 0; i < pcdnList.size(); i++) {
+                    AppRouterPcdnStatus.DataBean.PcdnListBean pcdnListBean = pcdnList.get(i);
+                    if (i == 0) {
+                        deviceList.setPluginOneNickname(pcdnListBean.getNickname());
+                        deviceList.setPluginOneName(pcdnListBean.getName());
+                        deviceList.setPluginOneCacheSize(pcdnListBean.getCacheSize());
+                        deviceList.setPluginOneIsExt(pcdnListBean.getPluginIsext());
+                        deviceList.setPluginOneRunPos(pcdnListBean.getPluginRunpos());
+                        deviceList.setPluginOneStatus(pcdnListBean.getStatus());
+                    } else if (i == 1) {
+                        deviceList.setPluginTwoNickname(pcdnListBean.getNickname());
+                        deviceList.setPluginTwoName(pcdnListBean.getName());
+                        deviceList.setPluginTwoCacheSize(pcdnListBean.getCacheSize());
+                        deviceList.setPluginTwoIsExt(pcdnListBean.getPluginIsext());
+                        deviceList.setPluginTwoRunPos(pcdnListBean.getPluginRunpos());
+                        deviceList.setPluginTwoStatus(pcdnListBean.getStatus());
+                    }
+                }
+                saveOrUpdate(deviceList);
+            } else if ("169500020".equals(accountDeviceList.getProductId())) {
+                AccountDeviceList deviceList = getById(accountDeviceList.getId());
+                AppRouterPcdnStatus pcdnStatus = jdcService.getOnePcdnStatus(accountDeviceList.getFeedId() + "", pin, tgt);
                 log.error(JsonUtil.GSON.toJson(pcdnStatus));
                 List<AppRouterPcdnStatus.DataBean.PcdnListBean> pcdnList = pcdnStatus.getData().getPcdnList();
                 for (int i = 0; i < pcdnList.size(); i++) {

@@ -180,7 +180,31 @@ public class JdcService {
         headers.put("appkey", "996");
         headers.put("pin", pin);
         String s = OkHttpUtil.postJsonParams(AppUrlConstant.CONTROL_DEVICE, body, headers);
-        log.error("获取插件结果：" + s);
+        AppResult appResult = JsonUtil.GSON.fromJson(s, AppResult.class);
+        AppRouterStatusDetail appRouterStatusDetail = JsonUtil.GSON.fromJson(appResult.getResult().toString(), AppRouterStatusDetail.class);
+        return JsonUtil.GSON.fromJson(appRouterStatusDetail.getStreams().get(0).getCurrentValue(), AppRouterPcdnStatus.class);
+    }
+
+    /**
+     * 获取路由状态详情
+     *
+     * @param feedId
+     * @return
+     */
+    public AppRouterPcdnStatus getOnePcdnStatus(String feedId, String pin, String tgt) {
+        String body = "{\"feed_id\":\"" + feedId + "\",\"command\":[{\"stream_id\":\"SetParams\",\"current_value\":\"{\\n  \\\"cmd\\\" : \\\"jdcplugin_opt.get_pcdn_status\\\"\\n}\"}]}";
+        LocalDateTime now = LocalDateTime.now();
+        Map<String, String> headers = new HashMap<>();
+        String nowStr = now + "Z";
+        String authorization = encodeAuthorization(body, ACCESS_KEY, nowStr);
+        headers.put("Authorization", authorization);
+        headers.put("timestamp", now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        headers.put("accesskey", ACCESS_KEY);
+        headers.put("tgt", tgt);
+        headers.put("User-Agent", "ios");
+        headers.put("appkey", "996");
+        headers.put("pin", pin);
+        String s = OkHttpUtil.postJsonParams(AppUrlConstant.CONTROL_DEVICE, body, headers);
         AppResult appResult = JsonUtil.GSON.fromJson(s, AppResult.class);
         AppRouterStatusDetail appRouterStatusDetail = JsonUtil.GSON.fromJson(appResult.getResult().toString(), AppRouterStatusDetail.class);
         return JsonUtil.GSON.fromJson(appRouterStatusDetail.getStreams().get(0).getCurrentValue(), AppRouterPcdnStatus.class);
