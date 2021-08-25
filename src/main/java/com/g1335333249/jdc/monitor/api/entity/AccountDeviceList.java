@@ -154,6 +154,12 @@ public class AccountDeviceList implements Serializable {
     /**
      * 插件1名称
      */
+    @TableField("plugin_one_nickname")
+    private String pluginOneNickname;
+
+    /**
+     * 插件1名称
+     */
     @TableField("plugin_one_name")
     private String pluginOneName;
 
@@ -180,6 +186,12 @@ public class AccountDeviceList implements Serializable {
      */
     @TableField("plugin_one_run_pos")
     private String pluginOneRunPos;
+
+    /**
+     * 插件2名称
+     */
+    @TableField("plugin_two_nickname")
+    private String pluginTwoNickname;
 
     /**
      * 插件2名称
@@ -296,6 +308,8 @@ public class AccountDeviceList implements Serializable {
 
     public static final String UPDATE_USER_ID = "update_user_id";
 
+    public static final String PLUGIN_ONE_NICKNAME = "plugin_one_nickname";
+
     public static final String PLUGIN_ONE_NAME = "plugin_one_name";
 
     public static final String PLUGIN_ONE_CACHE_SIZE = "plugin_one_cache_size";
@@ -305,6 +319,8 @@ public class AccountDeviceList implements Serializable {
     public static final String PLUGIN_ONE_IS_EXT = "plugin_one_is_ext";
 
     public static final String PLUGIN_ONE_RUN_POS = "plugin_one_run_pos";
+
+    public static final String PLUGIN_TWO_NICKNAME = "plugin_two_nickname";
 
     public static final String PLUGIN_TWO_NAME = "plugin_two_name";
 
