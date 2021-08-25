@@ -43,27 +43,29 @@ public class AccountDeviceListServiceImpl extends ServiceImpl<AccountDeviceListM
     @Override
     public void monitor(AccountDeviceList accountDeviceList, String pin, String tgt, Long updateUserId, Calendar now) {
         try {
-            AccountDeviceList deviceList = getById(accountDeviceList.getId());
-            AppRouterPcdnStatus pcdnStatus = jdcService.getPcdnStatus(accountDeviceList.getFeedId() + "", pin, tgt);
-            log.error(JsonUtil.GSON.toJson(pcdnStatus));
-            List<AppRouterPcdnStatus.DataBean.PcdnListBean> pcdnList = pcdnStatus.getData().getPcdnList();
-            for (int i = 0; i < pcdnList.size(); i++) {
-                AppRouterPcdnStatus.DataBean.PcdnListBean pcdnListBean = pcdnList.get(i);
-                if (i == 0) {
-                    deviceList.setPluginOneName(pcdnListBean.getName());
-                    deviceList.setPluginOneCacheSize(pcdnListBean.getCacheSize());
-                    deviceList.setPluginOneIsExt(pcdnListBean.getPluginIsext());
-                    deviceList.setPluginOneRunPos(pcdnListBean.getPluginRunpos());
-                    deviceList.setPluginOneStatus(pcdnListBean.getStatus());
-                } else if (i == 1) {
-                    deviceList.setPluginTwoName(pcdnListBean.getName());
-                    deviceList.setPluginTwoCacheSize(pcdnListBean.getCacheSize());
-                    deviceList.setPluginTwoIsExt(pcdnListBean.getPluginIsext());
-                    deviceList.setPluginTwoRunPos(pcdnListBean.getPluginRunpos());
-                    deviceList.setPluginTwoStatus(pcdnListBean.getStatus());
+            if ("213400001".equals(accountDeviceList.getProductId())) {
+                AccountDeviceList deviceList = getById(accountDeviceList.getId());
+                AppRouterPcdnStatus pcdnStatus = jdcService.getPcdnStatus(accountDeviceList.getFeedId() + "", pin, tgt);
+                log.error(JsonUtil.GSON.toJson(pcdnStatus));
+                List<AppRouterPcdnStatus.DataBean.PcdnListBean> pcdnList = pcdnStatus.getData().getPcdnList();
+                for (int i = 0; i < pcdnList.size(); i++) {
+                    AppRouterPcdnStatus.DataBean.PcdnListBean pcdnListBean = pcdnList.get(i);
+                    if (i == 0) {
+                        deviceList.setPluginOneName(pcdnListBean.getName());
+                        deviceList.setPluginOneCacheSize(pcdnListBean.getCacheSize());
+                        deviceList.setPluginOneIsExt(pcdnListBean.getPluginIsext());
+                        deviceList.setPluginOneRunPos(pcdnListBean.getPluginRunpos());
+                        deviceList.setPluginOneStatus(pcdnListBean.getStatus());
+                    } else if (i == 1) {
+                        deviceList.setPluginTwoName(pcdnListBean.getName());
+                        deviceList.setPluginTwoCacheSize(pcdnListBean.getCacheSize());
+                        deviceList.setPluginTwoIsExt(pcdnListBean.getPluginIsext());
+                        deviceList.setPluginTwoRunPos(pcdnListBean.getPluginRunpos());
+                        deviceList.setPluginTwoStatus(pcdnListBean.getStatus());
+                    }
                 }
+                saveOrUpdate(deviceList);
             }
-            saveOrUpdate(deviceList);
         } catch (Exception e) {
             log.error("获取插件异常！", e);
         }
