@@ -63,6 +63,7 @@ public class AccountDeviceListServiceImpl extends ServiceImpl<AccountDeviceListM
                     deviceList.setPluginTwoStatus(pcdnListBean.getStatus());
                 }
             }
+            saveOrUpdate(deviceList);
         } catch (Exception e) {
             log.error("获取插件异常！", e);
         }
