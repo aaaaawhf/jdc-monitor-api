@@ -152,6 +152,14 @@ public class JdcService {
         return success > 0;
     }
 
+//    public static void main(String[] args) {
+//        String body = "{\"feed_id\":\"939541624638461674\",\"command\":[{\"stream_id\":\"SetParams\",\"current_value\":\"{\\n  \\\"cmd\\\" : \\\"plugin.jdcplugin_opt.get_pcdn_status\\\"\\n}\"}]}";
+//        Map<String, String> headers = new HashMap<>();
+//        String nowStr = "2021-08-25T13:50:50.445Z";
+//        String authorization = encodeAuthorization(body, ACCESS_KEY, nowStr);
+//        System.out.println(authorization);
+//    }
+
     /**
      * 获取路由状态详情
      *
@@ -172,6 +180,7 @@ public class JdcService {
         headers.put("appkey", "996");
         headers.put("pin", pin);
         String s = OkHttpUtil.postJsonParams(AppUrlConstant.CONTROL_DEVICE, body, headers);
+        log.error("获取插件结果：" + s);
         AppResult appResult = JsonUtil.GSON.fromJson(s, AppResult.class);
         AppRouterStatusDetail appRouterStatusDetail = JsonUtil.GSON.fromJson(appResult.getResult().toString(), AppRouterStatusDetail.class);
         return JsonUtil.GSON.fromJson(appRouterStatusDetail.getStreams().get(0).getCurrentValue(), AppRouterPcdnStatus.class);

@@ -15,6 +15,7 @@ import com.g1335333249.jdc.monitor.api.model.jdc.router.AppRouterTodayPointInfo;
 import com.g1335333249.jdc.monitor.api.service.IAccountDeviceListService;
 import com.g1335333249.jdc.monitor.api.service.IAccountDeviceListSpeedMonitorService;
 import com.g1335333249.jdc.monitor.api.service.JdcService;
+import com.g1335333249.jdc.monitor.api.utils.JsonUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,6 +45,7 @@ public class AccountDeviceListServiceImpl extends ServiceImpl<AccountDeviceListM
         try {
             AccountDeviceList deviceList = getById(accountDeviceList.getId());
             AppRouterPcdnStatus pcdnStatus = jdcService.getPcdnStatus(accountDeviceList.getFeedId() + "", pin, tgt);
+            log.error(JsonUtil.GSON.toJson(pcdnStatus));
             List<AppRouterPcdnStatus.DataBean.PcdnListBean> pcdnList = pcdnStatus.getData().getPcdnList();
             for (int i = 0; i < pcdnList.size(); i++) {
                 AppRouterPcdnStatus.DataBean.PcdnListBean pcdnListBean = pcdnList.get(i);
