@@ -60,9 +60,9 @@ public class AppRouterPcdnStatus implements Serializable {
             @SerializedName("plugin_runpos")
             private String pluginRunpos;
             @SerializedName("plugin_isext")
-            private boolean pluginIsext;
+            private Boolean pluginIsext;
             @SerializedName("cache_size")
-            private int cacheSize;
+            private Long cacheSize;
             @SerializedName("nickname")
             private String nickname;
             @SerializedName("name")

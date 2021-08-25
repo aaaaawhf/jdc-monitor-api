@@ -8,6 +8,7 @@ import com.g1335333249.jdc.monitor.api.entity.AccountDeviceList;
 import com.g1335333249.jdc.monitor.api.entity.AccountDeviceListSpeedMonitor;
 import com.g1335333249.jdc.monitor.api.mapper.AccountDeviceListMapper;
 import com.g1335333249.jdc.monitor.api.model.Dashboard;
+import com.g1335333249.jdc.monitor.api.model.jdc.AppRouterPcdnStatus;
 import com.g1335333249.jdc.monitor.api.model.jdc.AppRouterStatusDetailInfo;
 import com.g1335333249.jdc.monitor.api.model.jdc.router.AppRouterTodayPointDetail;
 import com.g1335333249.jdc.monitor.api.model.jdc.router.AppRouterTodayPointInfo;
@@ -40,8 +41,29 @@ public class AccountDeviceListServiceImpl extends ServiceImpl<AccountDeviceListM
 
     @Override
     public void monitor(AccountDeviceList accountDeviceList, String pin, String tgt, Long updateUserId, Calendar now) {
-//        AppRouterPcdnStatus pcdnStatus = jdcService.getPcdnStatus(feedId + "", pin, tgt);
-        //
+        try {
+            AccountDeviceList deviceList = getById(accountDeviceList.getId());
+            AppRouterPcdnStatus pcdnStatus = jdcService.getPcdnStatus(accountDeviceList.getFeedId() + "", pin, tgt);
+            List<AppRouterPcdnStatus.DataBean.PcdnListBean> pcdnList = pcdnStatus.getData().getPcdnList();
+            for (int i = 0; i < pcdnList.size(); i++) {
+                AppRouterPcdnStatus.DataBean.PcdnListBean pcdnListBean = pcdnList.get(i);
+                if (i == 0) {
+                    deviceList.setPluginOneName(pcdnListBean.getName());
+                    deviceList.setPluginOneCacheSize(pcdnListBean.getCacheSize());
+                    deviceList.setPluginOneIsExt(pcdnListBean.getPluginIsext());
+                    deviceList.setPluginOneRunPos(pcdnListBean.getPluginRunpos());
+                    deviceList.setPluginOneStatus(pcdnListBean.getStatus());
+                } else if (i == 1) {
+                    deviceList.setPluginTwoName(pcdnListBean.getName());
+                    deviceList.setPluginTwoCacheSize(pcdnListBean.getCacheSize());
+                    deviceList.setPluginTwoIsExt(pcdnListBean.getPluginIsext());
+                    deviceList.setPluginTwoRunPos(pcdnListBean.getPluginRunpos());
+                    deviceList.setPluginTwoStatus(pcdnListBean.getStatus());
+                }
+            }
+        } catch (Exception e) {
+            log.error("获取插件异常！", e);
+        }
         AppRouterStatusDetailInfo routerStatusDetail = jdcService.getRouterStatusDetail(accountDeviceList.getFeedId() + "", pin, tgt);
         if (routerStatusDetail.getData() != null) {
             AppRouterStatusDetailInfo.DataBean dataBean = routerStatusDetail.getData();

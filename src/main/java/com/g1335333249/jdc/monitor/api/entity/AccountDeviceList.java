@@ -151,6 +151,66 @@ public class AccountDeviceList implements Serializable {
     @TableField("update_user_id")
     private Long updateUserId;
 
+    /**
+     * 插件1名称
+     */
+    @TableField("plugin_one_name")
+    private String pluginOneName;
+
+    /**
+     * 插件1缓存大小
+     */
+    @TableField("plugin_one_cache_size")
+    private Long pluginOneCacheSize;
+
+    /**
+     * 插件1运行状态
+     */
+    @TableField("plugin_one_status")
+    private String pluginOneStatus;
+
+    /**
+     * 插件1是否外置
+     */
+    @TableField("plugin_one_is_ext")
+    private Boolean pluginOneIsExt;
+
+    /**
+     * 插件1运行位置
+     */
+    @TableField("plugin_one_run_pos")
+    private String pluginOneRunPos;
+
+    /**
+     * 插件2名称
+     */
+    @TableField("plugin_two_name")
+    private String pluginTwoName;
+
+    /**
+     * 插件2缓存大小
+     */
+    @TableField("plugin_two_cache_size")
+    private Long pluginTwoCacheSize;
+
+    /**
+     * 插件2运行状态
+     */
+    @TableField("plugin_two_status")
+    private String pluginTwoStatus;
+
+    /**
+     * 插件2是否外置
+     */
+    @TableField("plugin_two_is_ext")
+    private Boolean pluginTwoIsExt;
+
+    /**
+     * 插件2运行位置
+     */
+    @TableField("plugin_two_run_pos")
+    private String pluginTwoRunPos;
+
     @TableField(value = "now_upload", exist = false)
     private Long nowUpload;
 
@@ -235,5 +295,25 @@ public class AccountDeviceList implements Serializable {
     public static final String UPDATE_TIME = "update_time";
 
     public static final String UPDATE_USER_ID = "update_user_id";
+
+    public static final String PLUGIN_ONE_NAME = "plugin_one_name";
+
+    public static final String PLUGIN_ONE_CACHE_SIZE = "plugin_one_cache_size";
+
+    public static final String PLUGIN_ONE_STATUS = "plugin_one_status";
+
+    public static final String PLUGIN_ONE_IS_EXT = "plugin_one_is_ext";
+
+    public static final String PLUGIN_ONE_RUN_POS = "plugin_one_run_pos";
+
+    public static final String PLUGIN_TWO_NAME = "plugin_two_name";
+
+    public static final String PLUGIN_TWO_CACHE_SIZE = "plugin_two_cache_size";
+
+    public static final String PLUGIN_TWO_STATUS = "plugin_two_status";
+
+    public static final String PLUGIN_TWO_IS_EXT = "plugin_two_is_ext";
+
+    public static final String PLUGIN_TWO_RUN_POS = "plugin_two_run_pos";
 
 }
