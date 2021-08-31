@@ -52,7 +52,7 @@ public class UserNoticeController {
             temp.setUserId(currentUser.getUserId());
             temp.setCreateUserId(currentUser.getUserId());
             temp.setCreateTime(new Date());
-            temp.setSendKey(userNotice.getSendKey());
+            temp.setConfigJson(userNotice.getConfigJson());
             iUserNoticeService.save(temp);
         } else {
             UserNotice temp = iUserNoticeService.getById(userNotice.getId());
@@ -64,7 +64,7 @@ public class UserNoticeController {
             }
             temp.setNoticeType(userNotice.getNoticeType());
             temp.setIsEnabled(userNotice.getIsEnabled());
-            temp.setSendKey(userNotice.getSendKey());
+            temp.setConfigJson(userNotice.getConfigJson());
             temp.setUpdateTime(new Date());
             temp.setUpdateUserId(currentUser.getUserId());
             iUserNoticeService.saveOrUpdate(temp);

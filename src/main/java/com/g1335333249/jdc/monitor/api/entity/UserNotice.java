@@ -36,7 +36,7 @@ public class UserNotice implements Serializable {
     private Long userId;
 
     /**
-     * 通知类型：1-server酱
+     * 通知类型：1-server酱、2-bark
      */
     @TableField("notice_type")
     private Integer noticeType;
@@ -44,8 +44,8 @@ public class UserNotice implements Serializable {
     /**
      * 发送通知的key
      */
-    @TableField("send_key")
-    private String sendKey;
+    @TableField("config_json")
+    private String configJson;
 
     @TableField("is_enabled")
     private Boolean isEnabled;
@@ -72,7 +72,7 @@ public class UserNotice implements Serializable {
 
     public static final String NOTICE_TYPE = "notice_type";
 
-    public static final String SEND_KEY = "send_key";
+    public static final String CONFIG_JSON = "config_json";
 
     public static final String IS_ENABLED = "is_enabled";
 
