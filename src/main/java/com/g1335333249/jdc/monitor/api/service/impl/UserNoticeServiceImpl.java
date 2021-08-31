@@ -44,7 +44,7 @@ public class UserNoticeServiceImpl extends ServiceImpl<UserNoticeMapper, UserNot
     private IAccountDeviceListService iAccountDeviceListService;
 
     private static final String BARK_SERVER_URL = "http://www.jsj1304.com:9990/push";
-    private static final String SERVERJ_SERVER_URL = "https://sctapi.ftqq.com/{}.send";
+    private static final String SERVERJ_SERVER_URL = "https://sctapi.ftqq.com/{0}.send";
 
     @Override
     public void sendNotice(Long userId) {
@@ -99,7 +99,7 @@ public class UserNoticeServiceImpl extends ServiceImpl<UserNoticeMapper, UserNot
         //  请勿轻易改变此提交方式，大部分的情况下，提交方式都是表单提交
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         //  封装参数，千万不要替换为Map与HashMap，否则参数无法传递
-        MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         //  也支持中文
         params.add("title", title);
         params.add("desp", body);

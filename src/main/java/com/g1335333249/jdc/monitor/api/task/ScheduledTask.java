@@ -71,7 +71,7 @@ public class ScheduledTask {
         log.info("USER_ACCOUNT_MAP初始化完成，共{}条", USER_ACCOUNT_MAP.size());
     }
 
-    @Scheduled(cron = "0 0/5 * * * *")
+//    @Scheduled(cron = "0 0/5 * * * *")
     public void updateMonitor() {
         Calendar now = Calendar.getInstance();
         now.set(Calendar.SECOND, 0);
