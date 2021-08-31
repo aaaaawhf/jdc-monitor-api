@@ -6,6 +6,7 @@ import com.g1335333249.jdc.monitor.api.entity.UserAccount;
 import com.g1335333249.jdc.monitor.api.model.jdc.AppDeviceResult;
 import com.g1335333249.jdc.monitor.api.service.IAccountDeviceListService;
 import com.g1335333249.jdc.monitor.api.service.IUserAccountService;
+import com.g1335333249.jdc.monitor.api.service.IUserNoticeService;
 import com.g1335333249.jdc.monitor.api.service.JdcService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @Author: guanpeng
@@ -34,6 +36,9 @@ public class ScheduledTask {
     private IAccountDeviceListService iAccountDeviceListService;
     @Autowired
     private JdcService jdcService;
+    @Autowired
+    private IUserNoticeService iUserNoticeService;
+
     private static final Map<Long, UserAccount> USER_ACCOUNT_MAP = new HashMap<>();
 
     @Scheduled(cron = "0 30 7 * * *")
@@ -41,12 +46,19 @@ public class ScheduledTask {
         USER_ACCOUNT_MAP.clear();
         List<UserAccount> userAccountList = iUserAccountService.list(Wrappers.<UserAccount>lambdaQuery().eq(UserAccount::getIsValid, true));
         userAccountList.forEach(s -> USER_ACCOUNT_MAP.put(s.getId(), s));
-        userAccountList.parallelStream().forEach(s -> {
+        userAccountList.stream().collect(Collectors.groupingBy(UserAccount::getUserId)).forEach((k, v) -> {
+            v.forEach(s -> {
+                try {
+                    List<AppDeviceResult> appDeviceResults = jdcService.listAllUserDevices(s.getPin(), s.getTgt());
+                    iUserAccountService.updateAccountDeviceList(appDeviceResults, -1L, s);
+                } catch (Exception e) {
+                    log.error("获取积分错误{}", s.getId(), e);
+                }
+            });
             try {
-                List<AppDeviceResult> appDeviceResults = jdcService.listAllUserDevices(s.getPin(), s.getTgt());
-                iUserAccountService.updateAccountDeviceList(appDeviceResults, -1L, s);
-            } catch (Exception e) {
-                log.error("获取积分错误{}", s.getId(), e);
+                iUserNoticeService.sendNotice(k);
+            } catch (Exception ignored) {
+
             }
         });
     }
