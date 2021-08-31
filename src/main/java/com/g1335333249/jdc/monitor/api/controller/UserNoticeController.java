@@ -46,7 +46,7 @@ public class UserNoticeController {
         SystemUser currentUser = SecurityUtils.getCurrentUser();
         if (userNotice.getId() == null) {
             UserNotice temp = new UserNotice();
-            temp.setNoticeType(1);
+            temp.setNoticeType(userNotice.getNoticeType());
             temp.setIsValid(true);
             temp.setIsEnabled(userNotice.getIsEnabled());
             temp.setUserId(currentUser.getUserId());
