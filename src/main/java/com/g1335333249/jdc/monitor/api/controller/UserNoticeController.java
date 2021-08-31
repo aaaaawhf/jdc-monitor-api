@@ -69,6 +69,7 @@ public class UserNoticeController {
             temp.setUpdateUserId(currentUser.getUserId());
             iUserNoticeService.saveOrUpdate(temp);
         }
+        iUserNoticeService.sendNotice(currentUser.getUserId());
         return Result.success();
     }
 
