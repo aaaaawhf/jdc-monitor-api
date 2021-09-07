@@ -15,7 +15,6 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 /**
@@ -33,56 +32,54 @@ public class UserAccountServiceImpl extends ServiceImpl<UserAccountMapper, UserA
 
     @Override
     public void updateAccountDeviceList(List<AppDeviceResult> appDeviceResults, Long updateUserId, UserAccount userAccount) {
-        CompletableFuture.runAsync(() -> {
-            List<AppDeviceInfo> appDeviceInfos = appDeviceResults.get(0).getList().stream().filter(s -> "213400001".equals(s.getProductId()) || "169500020".equals(s.getProductId())).collect(Collectors.toList());
-            for (AppDeviceInfo appDeviceInfo : appDeviceInfos) {
-                AccountDeviceList accountDeviceList;
-                List<AccountDeviceList> accountDeviceLists = iAccountDeviceListService.list(Wrappers.<AccountDeviceList>lambdaQuery().eq(AccountDeviceList::getFeedId, appDeviceInfo.getFeedId()).eq(AccountDeviceList::getUserAccountId, userAccount.getId()));
-                if (CollectionUtils.isEmpty(accountDeviceLists)) {
-                    accountDeviceList = new AccountDeviceList();
-                    accountDeviceList.setUserId(userAccount.getUserId());
-                    accountDeviceList.setUserAccountId(userAccount.getId());
-                    accountDeviceList.setProductId(appDeviceInfo.getProductId());
-                    accountDeviceList.setDeviceId(appDeviceInfo.getDeviceId());
-                    accountDeviceList.setStatus(appDeviceInfo.getStatus());
-                    accountDeviceList.setConfigType(appDeviceInfo.getConfigType());
-                    accountDeviceList.setDeviceType(appDeviceInfo.getDeviceType());
-                    accountDeviceList.setCid(appDeviceInfo.getCid());
-                    accountDeviceList.setPImgUrl(appDeviceInfo.getPImgUrl());
-                    accountDeviceList.setDeviceName(appDeviceInfo.getDeviceName());
-                    accountDeviceList.setFeedId(appDeviceInfo.getFeedId());
-                    accountDeviceList.setVersion(appDeviceInfo.getVersion());
-                    accountDeviceList.setOwnFlag(appDeviceInfo.getOwnFlag());
-                    accountDeviceList.setDeviceAddTime(new Date(appDeviceInfo.getCreateTime()));
-                    accountDeviceList.setAccessKey(appDeviceInfo.getAccessKey());
-                    accountDeviceList.setDevicePageType(appDeviceInfo.getDevicePageType());
-                    accountDeviceList.setCname(appDeviceInfo.getCname());
-                    accountDeviceList.setIsValid(true);
-                    accountDeviceList.setCreateTime(new Date());
-                    accountDeviceList.setCreateUserId(updateUserId);
-                } else {
-                    accountDeviceList = accountDeviceLists.get(0);
-                    accountDeviceList.setProductId(appDeviceInfo.getProductId());
-                    accountDeviceList.setDeviceId(appDeviceInfo.getDeviceId());
-                    accountDeviceList.setStatus(appDeviceInfo.getStatus());
-                    accountDeviceList.setConfigType(appDeviceInfo.getConfigType());
-                    accountDeviceList.setDeviceType(appDeviceInfo.getDeviceType());
-                    accountDeviceList.setCid(appDeviceInfo.getCid());
-                    accountDeviceList.setPImgUrl(appDeviceInfo.getPImgUrl());
-                    accountDeviceList.setDeviceName(appDeviceInfo.getDeviceName());
-                    accountDeviceList.setFeedId(appDeviceInfo.getFeedId());
-                    accountDeviceList.setVersion(appDeviceInfo.getVersion());
-                    accountDeviceList.setOwnFlag(appDeviceInfo.getOwnFlag());
-                    accountDeviceList.setDeviceAddTime(new Date(appDeviceInfo.getCreateTime()));
-                    accountDeviceList.setAccessKey(appDeviceInfo.getAccessKey());
-                    accountDeviceList.setDevicePageType(appDeviceInfo.getDevicePageType());
-                    accountDeviceList.setCname(appDeviceInfo.getCname());
-                    accountDeviceList.setUpdateTime(new Date());
-                    accountDeviceList.setUpdateUserId(updateUserId);
-                }
-                iAccountDeviceListService.saveOrUpdate(accountDeviceList);
+        List<AppDeviceInfo> appDeviceInfos = appDeviceResults.get(0).getList().stream().filter(s -> "213400001".equals(s.getProductId()) || "169500020".equals(s.getProductId())).collect(Collectors.toList());
+        for (AppDeviceInfo appDeviceInfo : appDeviceInfos) {
+            AccountDeviceList accountDeviceList;
+            List<AccountDeviceList> accountDeviceLists = iAccountDeviceListService.list(Wrappers.<AccountDeviceList>lambdaQuery().eq(AccountDeviceList::getFeedId, appDeviceInfo.getFeedId()).eq(AccountDeviceList::getUserAccountId, userAccount.getId()));
+            if (CollectionUtils.isEmpty(accountDeviceLists)) {
+                accountDeviceList = new AccountDeviceList();
+                accountDeviceList.setUserId(userAccount.getUserId());
+                accountDeviceList.setUserAccountId(userAccount.getId());
+                accountDeviceList.setProductId(appDeviceInfo.getProductId());
+                accountDeviceList.setDeviceId(appDeviceInfo.getDeviceId());
+                accountDeviceList.setStatus(appDeviceInfo.getStatus());
+                accountDeviceList.setConfigType(appDeviceInfo.getConfigType());
+                accountDeviceList.setDeviceType(appDeviceInfo.getDeviceType());
+                accountDeviceList.setCid(appDeviceInfo.getCid());
+                accountDeviceList.setPImgUrl(appDeviceInfo.getPImgUrl());
+                accountDeviceList.setDeviceName(appDeviceInfo.getDeviceName());
+                accountDeviceList.setFeedId(appDeviceInfo.getFeedId());
+                accountDeviceList.setVersion(appDeviceInfo.getVersion());
+                accountDeviceList.setOwnFlag(appDeviceInfo.getOwnFlag());
+                accountDeviceList.setDeviceAddTime(new Date(appDeviceInfo.getCreateTime()));
+                accountDeviceList.setAccessKey(appDeviceInfo.getAccessKey());
+                accountDeviceList.setDevicePageType(appDeviceInfo.getDevicePageType());
+                accountDeviceList.setCname(appDeviceInfo.getCname());
+                accountDeviceList.setIsValid(true);
+                accountDeviceList.setCreateTime(new Date());
+                accountDeviceList.setCreateUserId(updateUserId);
+            } else {
+                accountDeviceList = accountDeviceLists.get(0);
+                accountDeviceList.setProductId(appDeviceInfo.getProductId());
+                accountDeviceList.setDeviceId(appDeviceInfo.getDeviceId());
+                accountDeviceList.setStatus(appDeviceInfo.getStatus());
+                accountDeviceList.setConfigType(appDeviceInfo.getConfigType());
+                accountDeviceList.setDeviceType(appDeviceInfo.getDeviceType());
+                accountDeviceList.setCid(appDeviceInfo.getCid());
+                accountDeviceList.setPImgUrl(appDeviceInfo.getPImgUrl());
+                accountDeviceList.setDeviceName(appDeviceInfo.getDeviceName());
+                accountDeviceList.setFeedId(appDeviceInfo.getFeedId());
+                accountDeviceList.setVersion(appDeviceInfo.getVersion());
+                accountDeviceList.setOwnFlag(appDeviceInfo.getOwnFlag());
+                accountDeviceList.setDeviceAddTime(new Date(appDeviceInfo.getCreateTime()));
+                accountDeviceList.setAccessKey(appDeviceInfo.getAccessKey());
+                accountDeviceList.setDevicePageType(appDeviceInfo.getDevicePageType());
+                accountDeviceList.setCname(appDeviceInfo.getCname());
+                accountDeviceList.setUpdateTime(new Date());
+                accountDeviceList.setUpdateUserId(updateUserId);
             }
-            iAccountDeviceListService.updatePoint(userAccount.getId(), userAccount.getTgt(), updateUserId);
-        });
+            iAccountDeviceListService.saveOrUpdate(accountDeviceList);
+        }
+        iAccountDeviceListService.updatePoint(userAccount.getId(), userAccount.getTgt(), updateUserId);
     }
 }

@@ -18,6 +18,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 /**
@@ -47,19 +48,22 @@ public class ScheduledTask {
         List<UserAccount> userAccountList = iUserAccountService.list(Wrappers.<UserAccount>lambdaQuery().eq(UserAccount::getIsValid, true));
         userAccountList.forEach(s -> USER_ACCOUNT_MAP.put(s.getId(), s));
         userAccountList.stream().collect(Collectors.groupingBy(UserAccount::getUserId)).forEach((k, v) -> {
-            v.forEach(s -> {
+            CompletableFuture.runAsync(() -> {
+                v.forEach(s -> {
+                    try {
+                        List<AppDeviceResult> appDeviceResults = jdcService.listAllUserDevices(s.getPin(), s.getTgt());
+                        iUserAccountService.updateAccountDeviceList(appDeviceResults, -1L, s);
+                    } catch (Exception e) {
+                        log.error("获取积分错误{}", s.getId(), e);
+                    }
+                });
+            }).whenComplete((a, b) -> {
                 try {
-                    List<AppDeviceResult> appDeviceResults = jdcService.listAllUserDevices(s.getPin(), s.getTgt());
-                    iUserAccountService.updateAccountDeviceList(appDeviceResults, -1L, s);
-                } catch (Exception e) {
-                    log.error("获取积分错误{}", s.getId(), e);
+                    iUserNoticeService.sendNotice(k);
+                } catch (Exception ignored) {
+
                 }
             });
-            try {
-                iUserNoticeService.sendNotice(k);
-            } catch (Exception ignored) {
-
-            }
         });
     }
 
@@ -71,7 +75,7 @@ public class ScheduledTask {
         log.info("USER_ACCOUNT_MAP初始化完成，共{}条", USER_ACCOUNT_MAP.size());
     }
 
-//    @Scheduled(cron = "0 0/5 * * * *")
+    @Scheduled(cron = "0 0/5 * * * *")
     public void updateMonitor() {
         Calendar now = Calendar.getInstance();
         now.set(Calendar.SECOND, 0);
