@@ -32,7 +32,8 @@ public class UserAccountServiceImpl extends ServiceImpl<UserAccountMapper, UserA
 
     @Override
     public void updateAccountDeviceList(List<AppDeviceResult> appDeviceResults, Long updateUserId, UserAccount userAccount) {
-        List<AppDeviceInfo> appDeviceInfos = appDeviceResults.get(0).getList().stream().filter(s -> "213400001".equals(s.getProductId()) || "169500020".equals(s.getProductId())).collect(Collectors.toList());
+        iAccountDeviceListService.update(Wrappers.<AccountDeviceList>lambdaUpdate().eq(AccountDeviceList::getUserAccountId, userAccount.getId()).set(AccountDeviceList::getIsValid, false));
+        List<AppDeviceInfo> appDeviceInfos = appDeviceResults.get(0).getList().stream().filter(s -> "213400001".equals(s.getProductId()) || "169500020".equals(s.getProductId()) || "2216000003".equals(s.getProductId())).collect(Collectors.toList());
         for (AppDeviceInfo appDeviceInfo : appDeviceInfos) {
             AccountDeviceList accountDeviceList;
             List<AccountDeviceList> accountDeviceLists = iAccountDeviceListService.list(Wrappers.<AccountDeviceList>lambdaQuery().eq(AccountDeviceList::getFeedId, appDeviceInfo.getFeedId()).eq(AccountDeviceList::getUserAccountId, userAccount.getId()));
@@ -75,6 +76,7 @@ public class UserAccountServiceImpl extends ServiceImpl<UserAccountMapper, UserA
                 accountDeviceList.setAccessKey(appDeviceInfo.getAccessKey());
                 accountDeviceList.setDevicePageType(appDeviceInfo.getDevicePageType());
                 accountDeviceList.setCname(appDeviceInfo.getCname());
+                accountDeviceList.setIsValid(true);
                 accountDeviceList.setUpdateTime(new Date());
                 accountDeviceList.setUpdateUserId(updateUserId);
             }
