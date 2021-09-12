@@ -94,10 +94,10 @@ public class AccountDeviceListServiceImpl extends ServiceImpl<AccountDeviceListM
         } catch (Exception e) {
             log.error("获取插件异常！", e);
         }
-//        AppRouterStatusDetailInfo routerStatusDetail = jdcService.getRouterStatusDetail(accountDeviceList.getFeedId() + "", pin, tgt);
-//        if (routerStatusDetail.getData() != null) {
-//            AppRouterStatusDetailInfo.DataBean dataBean = routerStatusDetail.getData();
-//            try {
+        AppRouterStatusDetailInfo routerStatusDetail = jdcService.getRouterStatusDetail(accountDeviceList.getFeedId() + "", pin, tgt);
+        if (routerStatusDetail.getData() != null) {
+            AppRouterStatusDetailInfo.DataBean dataBean = routerStatusDetail.getData();
+            try {
 //                AccountDeviceListSpeedMonitor accountDeviceListSpeedMonitor = new AccountDeviceListSpeedMonitor();
 //                accountDeviceListSpeedMonitor.setAccountDeviceListId(accountDeviceList.getId());
 //                accountDeviceListSpeedMonitor.setUpload(Long.parseLong(dataBean.getUpload()));
@@ -108,22 +108,22 @@ public class AccountDeviceListServiceImpl extends ServiceImpl<AccountDeviceListM
 //                accountDeviceListSpeedMonitor.setCreateTime(new Date());
 //                accountDeviceListSpeedMonitor.setWanip(dataBean.getWanip());
 //                iAccountDeviceListSpeedMonitorService.save(accountDeviceListSpeedMonitor);
-//
-//                AccountDeviceList deviceList = getById(accountDeviceList.getId());
-//                if (deviceList != null) {
-//                    deviceList.setRom(dataBean.getRom());
-//                    deviceList.setSn(dataBean.getSn());
-//                    deviceList.setModel(dataBean.getModel());
-//                    deviceList.setModelName(dataBean.getModelName());
-//                    deviceList.setApMode(dataBean.getApMode());
-//                    deviceList.setOnlineTime(Long.parseLong(dataBean.getOnlineTime()));
-//                    deviceList.setInternetIp(dataBean.getWanip());
-//                    saveOrUpdate(deviceList);
-//                }
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
+
+                AccountDeviceList deviceList = getById(accountDeviceList.getId());
+                if (deviceList != null) {
+                    deviceList.setRom(dataBean.getRom());
+                    deviceList.setSn(dataBean.getSn());
+                    deviceList.setModel(dataBean.getModel());
+                    deviceList.setModelName(dataBean.getModelName());
+                    deviceList.setApMode(dataBean.getApMode());
+                    deviceList.setOnlineTime(Long.parseLong(dataBean.getOnlineTime()));
+                    deviceList.setInternetIp(dataBean.getWanip());
+                    saveOrUpdate(deviceList);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
