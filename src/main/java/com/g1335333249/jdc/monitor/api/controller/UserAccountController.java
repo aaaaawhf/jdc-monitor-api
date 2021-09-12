@@ -58,7 +58,7 @@ public class UserAccountController {
         userAccount.setUserId(currentUser.getUserId());
         userAccount.setPin(request.getPin());
         userAccount.setTgt(request.getTgt());
-        userAccount.setDeviceCount((int) appDeviceResults.get(0).getList().stream().filter(s -> "213400001".equals(s.getProductId()) || "169500020".equals(s.getProductId())).count());
+        userAccount.setDeviceCount((int) appDeviceResults.get(0).getList().stream().filter(s -> "213400001".equals(s.getProductId()) || "169500020".equals(s.getProductId()) || "2216000003".equals(s.getProductId())).count());
         userAccount.setRemark(request.getRemark());
         userAccount.setIsValid(true);
         userAccount.setCreateTime(new Date());
