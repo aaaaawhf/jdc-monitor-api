@@ -43,7 +43,7 @@ public class AccountDeviceListServiceImpl extends ServiceImpl<AccountDeviceListM
     @Override
     public void monitor(AccountDeviceList accountDeviceList, String pin, String tgt, Long updateUserId, Calendar now) {
         try {
-            if ("213400001".equals(accountDeviceList.getProductId())) {
+            if ("213400001".equals(accountDeviceList.getProductId()) || "2216000003".equals(accountDeviceList.getProductId())) {
                 AccountDeviceList deviceList = getById(accountDeviceList.getId());
                 AppRouterPcdnStatus pcdnStatus = jdcService.getPcdnStatus(accountDeviceList.getFeedId() + "", pin, tgt);
                 List<AppRouterPcdnStatus.DataBean.PcdnListBean> pcdnList = pcdnStatus.getData().getPcdnList();
